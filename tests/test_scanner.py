@@ -6,7 +6,7 @@ import os
 import tempfile
 import shutil
 from pathlib import Path
-from scanner import scan_file, scan_directory, PATTERNS, ScanResult
+from src.scanner import scan_file, scan_directory, PATTERNS, ScanResult
 
 class TestPatternDetection(unittest.TestCase):
     """Test individual pattern detection."""
@@ -154,7 +154,7 @@ class TestReportGeneration(unittest.TestCase):
     
     def test_18_json_report_format(self):
         """Test JSON report format."""
-        from scanner import generate_report
+        from src.scanner import generate_report
         results = [ScanResult("test.md", 1, "hidden_html_comment", "test", "HIGH")]
         report = generate_report(results, "json")
         import json
@@ -165,7 +165,7 @@ class TestReportGeneration(unittest.TestCase):
     
     def test_19_text_report_format(self):
         """Test text report format."""
-        from scanner import generate_report
+        from src.scanner import generate_report
         results = [ScanResult("test.md", 1, "hidden_html_comment", "test", "HIGH")]
         report = generate_report(results, "text")
         self.assertIn("AI CODING TOOL SECURITY SCAN REPORT", report)
@@ -173,7 +173,7 @@ class TestReportGeneration(unittest.TestCase):
     
     def test_20_empty_report(self):
         """Test report with no findings."""
-        from scanner import generate_report
+        from src.scanner import generate_report
         report = generate_report([], "text")
         self.assertIn("No vulnerabilities detected", report)
 
@@ -182,17 +182,17 @@ class TestOWASPMapping(unittest.TestCase):
     
     def test_21_owasp_prompt_injection(self):
         """Test OWASP mapping for prompt injection."""
-        from scanner import OWASP_LLM_MAPPINGS
+        from src.scanner import OWASP_LLM_MAPPINGS
         self.assertEqual(OWASP_LLM_MAPPINGS["prompt_injection"], "LLM01: Prompt Injection")
     
     def test_22_owasp_data_leakage(self):
         """Test OWASP mapping for data leakage."""
-        from scanner import OWASP_LLM_MAPPINGS
+        from src.scanner import OWASP_LLM_MAPPINGS
         self.assertEqual(OWASP_LLM_MAPPINGS["data_leakage"], "LLM02: Sensitive Information Disclosure")
     
     def test_23_nist_rmf_mapping(self):
         """Test NIST AI RMF mapping."""
-        from scanner import NIST_RMF_MAPPINGS
+        from src.scanner import NIST_RMF_MAPPINGS
         self.assertIn("GOVERN", NIST_RMF_MAPPINGS["prompt_injection"])
 
 class TestEdgeCases(unittest.TestCase):
